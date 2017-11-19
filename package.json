@@ -128,10 +128,19 @@
     "Rich",
     "Presence"
   ],
+  "bugs": {
+    "url": "https://github.com/maxerbox/vscode-discord/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/maxerbox/vscode-discord/.git"
+  },
   "dependencies": {
     "bluebird": "^3.5.1",
     "discord-rpc": "^3.0.0-beta.2",
     "string-template": "^1.0.0",
     "winreg": "^1.2.4"
-  }
+  },
+  "license": "ISC",
+  "icon": "icons/icon.png"
 }
