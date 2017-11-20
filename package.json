@@ -2,7 +2,7 @@
   "name": "vscode-discord",
   "displayName": "vscode-discord",
   "description": "Display your current project on vscode in discord with Reach Presence",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "publisher": "maxerbox",
   "engines": {
     "vscode": "^1.18.0"
@@ -15,7 +15,8 @@
   ],
   "main": "./extension",
   "contributes": {
-    "commands": [{
+    "commands": [
+      {
         "command": "discord.updatePresence",
         "title": "Update presence",
         "category": "Discord"
@@ -31,67 +32,70 @@
         "category": "Discord"
       }
     ],
-    "configuration": [{
-      "title": "Vscode Discord configuration",
-      "type": "object",
-      "properties": {
-        "discord.clientID": {
-          "type": "string",
-          "default": "381795064944394249",
-          "description": "The client ID used to communicate with discord"
-        },
-        "discord.state": {
-          "type": "string",
-          "default": "Working on {projectName}",
-          "description": "The discord rpc state {projectName}: workspace name"
-        },
-        "discord.enable": {
-          "type": "boolean",
-          "default": true,
-          "description": "Enable vscode-discord"
-        },
-        "discord.details": {
-          "type": "string",
-          "default": "Editing {filename}",
-          "description": "The discord rpc details {filename}: filename, {language} : language id"
-        },
-        "discord.vscodeIconText": {
-          "type": "string",
-          "default": "Visual Studio Code",
-          "description": "The small icon hint (smallImageText)"
-        },
-        "discord.languageIconText": {
-          "type": "string",
-          "default": "{language}",
-          "description": "The hint for the language icon (largeImageText) {language} : language id"
-        },
-        "discord.idle": {
-          "type": "string",
-          "default": "Idle",
-          "description": "The default text when there is no editor opened"
-        },
-        "discord.iconMap": {
-          "type": "object",
-          "default": {
-            ".c": "c",
-            ".htm": "html",
-            ".html": "html",
-            ".gitignore": "git",
-            ".js": "js",
-            ".json": "json",
-            ".md": "markdown",
-            "npm": "npm"
+    "configuration": [
+      {
+        "title": "Vscode Discord configuration",
+        "type": "object",
+        "properties": {
+          "discord.clientID": {
+            "type": "string",
+            "default": "381795064944394249",
+            "description": "The client ID used to communicate with discord"
           },
-          "description": "THe icon map for the extensions"
-        },
-        "discord.interval": {
-          "type": "int",
-          "default": 3000,
-          "description": "The interval time to update the informations in ms"
+          "discord.state": {
+            "type": "string",
+            "default": "Working on {projectName}",
+            "description": "The discord rpc state {projectName}: workspace name"
+          },
+          "discord.enable": {
+            "type": "boolean",
+            "default": true,
+            "description": "Enable vscode-discord"
+          },
+          "discord.details": {
+            "type": "string",
+            "default": "Editing {filename}",
+            "description": "The discord rpc details {filename}: filename, {language} : language id"
+          },
+          "discord.vscodeIconText": {
+            "type": "string",
+            "default": "Visual Studio Code",
+            "description": "The small icon hint (smallImageText)"
+          },
+          "discord.languageIconText": {
+            "type": "string",
+            "default": "{language}",
+            "description": "The hint for the language icon (largeImageText) {language} : language id"
+          },
+          "discord.idle": {
+            "type": "string",
+            "default": "Idle",
+            "description": "The default text when there is no editor opened"
+          },
+          "discord.iconMap": {
+            "type": "object",
+            "default": {
+              ".c": "c",
+              ".htm": "html",
+              ".html": "html",
+              ".gitignore": "git",
+              ".js": "js",
+              ".json": "json",
+              ".md": "markdown",
+              "npm": "npm"
+            },
+            "description": "THe icon map for the extensions"
+          },
+          "discord.interval": {
+            "type": "int",
+            "default": 3000,
+            "description": "The interval time to update the informations in ms"
+          }
         }
       }
-    }],
-    "keybindings": [{
+    ],
+    "keybindings": [
+      {
         "command": "discord.updatePresence",
         "key": "",
         "mac": ""
@@ -109,7 +113,6 @@
     ]
   },
   "galleryBanner": {
-    "color": "#7186CC",
     "theme": "dark"
   },
   "scripts": {
@@ -138,7 +141,9 @@
   "dependencies": {
     "bluebird": "^3.5.1",
     "discord-rpc": "^3.0.0-beta.2",
-    "string-template": "^1.0.0",
+    "string-template": "^1.0.0"
+  },
+  "optionalDependencies": {
     "winreg": "^1.2.4"
   },
   "license": "ISC",

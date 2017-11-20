@@ -2,11 +2,10 @@
 // Import the module and reference it with the alias vscode in your code below
 const vscode = require('vscode')
 const {Client} = require('discord-rpc')
-const DiscordRegistry = require('./DiscordRegistery')
 const {basename, extname} = require('path')
-const Registry = require('winreg')
-const {promisifyAll} = require('bluebird')
 const format = require('string-template')
+const DiscordRegisterWin = require('./lib/DiscordRegisterWindows')
+const DiscordRegisterOsx = require('./lib/DiscordRegisterOsx')
 var configuration
 var client
 var isReady = false
@@ -19,33 +18,52 @@ const VSCODE_PATH = process.execPath
 function activate (context) {
   contextSave = context
   configuration = vscode.workspace.getConfiguration('discord')
+  console.log(process.version)
   context.subscriptions.push(vscode.commands.registerCommand('discord.updatePresence', updatePresence), vscode.commands.registerCommand('discord.enable', enable), vscode.commands.registerCommand('discord.disable', disable))
   if (!configuration.enable) return
-  setUpReg().then(function () {
-    client = new Client({ transport: 'ipc' })
-    // Use the console to output diagnostic information (console.log) and errors (console.error)
-    // This line of code will only be executed once when your extension is activated
-    client.on('ready', () => {
-      isReady = true
-      vscode.workspace.onDidChangeTextDocument = updatePresence
-      process.on('beforeExit', () => {
-        if (isReady) client.setActivity({})
-      })
-      console.log('Discord-rpc ready')
-      updatePresence()
-      setInterval(updatePresence, configuration.interval)
-    })
-    client.transport.on('close', () => {
-      isReady = false
-    })
-    client.login(configuration.clientID).catch(err => {
-      vscode.window.showErrorMessage('Can\'t connect to discord rpc: ' + err.message)
-    })
-    if (!context.globalState.get('vscode-discord.isFirstInstall')) {
-      vscode.window.showInformationMessage('Welcome to vscode-discord !')
-      context.globalState.update('vscode-discord.isFirstInstall', true)
-    }
+  var discordRegister
+  switch (process.platform) {
+    case 'win32':
+      discordRegister = new DiscordRegisterWin(configuration.clientID, VSCODE_PATH)
+      break
+    case 'darwin':
+      discordRegister = new DiscordRegisterOsx(configuration.clientID, null)
+      break
+    default :
+      vscode.window.showErrorMessage('vscode-discord: Not compatible with this OS')
+      return
+  }
+  discordRegister.register().then(function () {
+    startClient()
+  }).catch(err => vscode.window.showErrorMessage('vscode discord registering error: ' + err.message))
+}
+function startClient () {
+  client = new Client({ transport: 'ipc' })
+  // Use the console to output diagnostic information (console.log) and errors (console.error)
+  // This line of code will only be executed once when your extension is activated
+  client.on('ready', () => {
+    isReady = true
+    vscode.workspace.onDidChangeTextDocument = updatePresence
+    console.log('Discord-rpc ready')
+    updatePresence()
+    setInterval(updatePresence, configuration.interval)
   })
+  client.transport.on('close', () => {
+    isReady = false
+  })
+  client.login(configuration.clientID).catch(err => {
+    vscode.window.showErrorMessage('Can\'t connect to discord rpc: ' + err.message)
+  })
+  var previousVersion = contextSave.globalState.get('vscode-discord.isFirstInstall')
+  if (!previousVersion) {
+    vscode.window.showInformationMessage('Welcome to vscode-discord !')
+    contextSave.globalState.update('vscode-discord.isFirstInstall', true)
+  }
+  var version = vscode.extensions.getExtension('maxerbox.vscode-discord').packageJSON.version
+  if (previousVersion !== version) {
+    vscode.window.showInformationMessage('Vscode-discord updated!')
+    contextSave.globalState.update('vscode-discord.isFirstInstall', version)
+  }
 }
 exports.activate = activate
 
@@ -54,23 +72,6 @@ function deactivate () {
 }
 exports.deactivate = deactivate
 
-function createRegistery (path) {
-  return promisifyAll(new DiscordRegistry(configuration.clientID, path))
-}
-function setUpReg () {
-  return new Promise((resolve, reject) => {
-    const regKey = createRegistery('')
-    const iconKey = createRegistery('\\DefaultIcon')
-    const openKey = createRegistery('\\shell\\open\\command')
-    regKey.keyExistsAsync().then(exist => {
-      if (exist) {
-        resolve()
-        return
-      }
-      regKey.createAsync().then(regKey.setAsync(Registry.DEFAULT_VALUE, 'REG_SZ', `URL:Run game ${configuration.clientID} protocol`)).then(regKey.setAsync('URL Protocol', 'REG_SZ', '')).then(iconKey.createAsync()).then(iconKey.setAsync(Registry.DEFAULT_VALUE, 'REG_SZ', VSCODE_PATH)).then(openKey.createAsync()).then(openKey.setAsync(Registry.DEFAULT_VALUE, 'REG_SZ', VSCODE_PATH)).then(resolve).catch(reject)
-    }).catch(reject)
-  })
-}
 function updatePresence () {
   if (!isReady) return
   if (!vscode.workspace.getConfiguration('discord').get('enable', true)) return

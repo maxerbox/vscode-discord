@@ -19,7 +19,15 @@
 
 * Windows
 
+* MacOs in test
+
 * Discord client
+
+## Install
+
+* Install the extension
+
+* **Add Visual Studio Code on discord.**
 
 ## Extension Settings
 
@@ -37,17 +45,22 @@ This extension contributes the following settings:
 
 ## Known Issues
 
-Hmmm
+* Not displaying on discord : Check out if Visual Studio Code is added as game on the discord client.
 
 ## License
 
-The source code is licensed under the [ISC](LICENSE) License
+The source code is licensed under the [ISC](LICENSE) License.
+
 The icons are licensed under the [Creative Commons - ShareAlike (CC BY-SA)](https://creativecommons.org/licenses/by-sa/4.0/) license.
 
 ## Release Notes
 
-### 1.0.0
+### 0.0.1
 
 Initial release of vscode-discord
+
+### 0.0.2
+
+Rewritten Discord Register
 
 -----------------------------------------------------------------------------------------------------------
