@@ -1,6 +1,6 @@
 # vscode-discord
 
-> Display your current project on vscode in discord with Reach Presence
+> Display your current project on vscode in discord with Rich Presence
 
 ![Badge](https://img.shields.io/github/license/maxerbox/vscode-discord.svg)
 ![Badge](https://img.shields.io/david/maxerbox/vscode-discord.svg)
