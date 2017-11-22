@@ -1,12 +1,10 @@
 // The module 'vscode' contains the VS Code extensibility API
 // Import the module and reference it with the alias vscode in your code below
 const vscode = require('vscode')
-const {Client} = require('discord-rpc')
 const {basename, extname} = require('path')
+const DisposableClient = require('./lib/DisposableClient')
 const format = require('string-template')
 const DiscordRegisterWin = require('./lib/DiscordRegisterWindows')
-const DiscordRegisterOsx = require('./lib/DiscordRegisterOsx')
-const DiscordRegisterLinux = require('./lib/DiscordRegisterLinux')
 var configuration
 var client
 var isReady = false
@@ -22,32 +20,24 @@ function activate (context) {
   console.log(process.version)
   context.subscriptions.push(vscode.commands.registerCommand('discord.updatePresence', updatePresence), vscode.commands.registerCommand('discord.enable', enable), vscode.commands.registerCommand('discord.disable', disable))
   if (!configuration.enable) return
-  var discordRegister
-  switch (process.platform) {
-    case 'win32':
-      discordRegister = new DiscordRegisterWin(configuration.clientID, VSCODE_PATH)
-      break
-    case 'darwin':
-      discordRegister = new DiscordRegisterOsx(configuration.clientID, null)
-      break
-    case 'linux':
-      discordRegister = new DiscordRegisterLinux(configuration.clientID, null)
-      break
-    default :
-      vscode.window.showErrorMessage('vscode-discord: Not compatible with this OS')
-      return
-  }
-  discordRegister.register().then(function () {
-    startClient()
-  }).catch(err => vscode.window.showErrorMessage('vscode discord registering error: ' + err.message))
+  if (process.platform === 'win32') {
+    var discordRegister = new DiscordRegisterWin(configuration.clientID, VSCODE_PATH)
+    discordRegister.register().then(function () {
+      startClient()
+    }).catch(err => vscode.window.showErrorMessage('vscode discord registering error: ' + err.message))
+  } else startClient()
 }
 function startClient () {
-  client = new Client({ transport: 'ipc' })
+  client = new DisposableClient({ transport: 'ipc' })
+  contextSave.subscriptions.push(client)
   // Use the console to output diagnostic information (console.log) and errors (console.error)
   // This line of code will only be executed once when your extension is activated
   client.on('ready', () => {
     isReady = true
     vscode.workspace.onDidChangeTextDocument = updatePresence
+    vscode.workspace.onDidCloseTextDocument = function () {
+      console.log('closed')
+    }
     console.log('Discord-rpc ready')
     updatePresence()
     setInterval(updatePresence, configuration.interval)
@@ -86,8 +76,9 @@ function updatePresence () {
   if (vscode.workspace.name) activityObject.state = format(configuration.state, {projectName: vscode.workspace.name})
   if (vscode.window.activeTextEditor) {
     var filename = basename(vscode.window.activeTextEditor.document.fileName)
+    var langId = vscode.window.activeTextEditor.document.languageId
     var ext = extname(filename)
-    activityObject.details = format(configuration.details, {filename: filename, language: vscode.window.activeTextEditor.document.languageId})
+    activityObject.details = format(configuration.details, {filename: filename, language: langId})
     if (lastFileEditing !== filename) {
       startTimestamp = new Date().getTime() / 1000
       activityObject.startTimestamp = startTimestamp

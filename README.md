@@ -17,17 +17,13 @@
 
 ## Requirements
 
-* Windows
-
-* MacOs in test
-
 * Discord client
 
 ## Install
 
-* Install the extension
+* Install the extension. The extension needs discord to be launched
 
-* **Add Visual Studio Code on discord.**
+* Facultative: Add Visual Studio Code on discord.
 
 ## Extension Settings
 
@@ -62,5 +58,10 @@ Initial release of vscode-discord
 ### 0.0.2
 
 Rewritten Discord Register
+
+### 0.0.3
+
+* Removed Discord Registers for other Os than Windows.
+* Added python support
 
 -----------------------------------------------------------------------------------------------------------

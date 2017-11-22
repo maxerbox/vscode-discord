@@ -1,7 +1,7 @@
 {
   "name": "vscode-discord",
   "displayName": "vscode-discord",
-  "description": "Display your current project on vscode in discord with Reach Presence",
+  "description": "Display your current project on vscode in discord with Rich Presence",
   "version": "0.0.2",
   "publisher": "maxerbox",
   "engines": {
@@ -82,6 +82,7 @@
               ".js": "js",
               ".json": "json",
               ".md": "markdown",
+              ".py": "python",
               "npm": "npm"
             },
             "description": "THe icon map for the extensions"
