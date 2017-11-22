@@ -23,7 +23,7 @@
 
 * Install the extension. The extension needs discord to be launched
 
-* Facultative: Add Visual Studio Code on discord.
+* Facultative: Add Visual Studio Code as "Game" on discord.
 
 ## Extension Settings
 
@@ -63,5 +63,6 @@ Rewritten Discord Register
 
 * Removed Discord Registers for other Os than Windows.
 * Added python support
+* Added a VSCode disposable client, to let the Rich Presence reset when the process quit.
 
 -----------------------------------------------------------------------------------------------------------

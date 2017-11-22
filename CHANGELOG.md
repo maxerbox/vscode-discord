@@ -1,7 +1,15 @@
 # Change Log
-All notable changes to the "vscode-discord" extension will be documented in this file.
 
-Check [Keep a Changelog](http://keepachangelog.com/) for recommendations on how to structure this file.
+### 0.0.1
 
-## [Unreleased]
-- Initial release
+Initial release of vscode-discord
+
+### 0.0.2
+
+Rewritten Discord Register
+
+### 0.0.3
+
+* Removed Discord Registers for other Os than Windows.
+* Added python support
+* Added a VSCode disposable client, to let the Rich Presence reset when the process quit.
