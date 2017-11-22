@@ -6,6 +6,7 @@ const {basename, extname} = require('path')
 const format = require('string-template')
 const DiscordRegisterWin = require('./lib/DiscordRegisterWindows')
 const DiscordRegisterOsx = require('./lib/DiscordRegisterOsx')
+const DiscordRegisterLinux = require('./lib/DiscordRegisterLinux')
 var configuration
 var client
 var isReady = false
@@ -28,6 +29,9 @@ function activate (context) {
       break
     case 'darwin':
       discordRegister = new DiscordRegisterOsx(configuration.clientID, null)
+      break
+    case 'linux':
+      discordRegister = new DiscordRegisterLinux(configuration.clientID, null)
       break
     default :
       vscode.window.showErrorMessage('vscode-discord: Not compatible with this OS')
