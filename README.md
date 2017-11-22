@@ -23,7 +23,7 @@
 
 * Install the extension. The extension needs discord to be launched
 
-* Facultative: Add Visual Studio Code as "Game" on discord.
+* Facultative: Add Visual Studio Code as "Game" on discord. **If you don't add it, it will still display "Playing Visual Studio Code" when you close it.**
 
 ## Extension Settings
 
