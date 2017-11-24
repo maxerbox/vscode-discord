@@ -2,7 +2,7 @@
   "name": "vscode-discord",
   "displayName": "vscode-discord",
   "description": "Display your current project on vscode in discord with Rich Presence",
-  "version": "0.0.3",
+  "version": "1.0.0",
   "publisher": "maxerbox",
   "engines": {
     "vscode": "^1.18.0"
@@ -51,6 +51,16 @@
             "type": "boolean",
             "default": true,
             "description": "Enable vscode-discord"
+          },
+          "discord.showDebug": {
+            "type": "boolean",
+            "default": true,
+            "description": "Show the debugging icon in the rich presence when debugging"
+          },
+          "discord.debugIconText": {
+            "type": "string",
+            "default": "Debugging",
+            "description": "The small image debug text when debugging"
           },
           "discord.details": {
             "type": "string",

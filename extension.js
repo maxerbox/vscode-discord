@@ -4,14 +4,14 @@ const vscode = require('vscode')
 const {basename, extname} = require('path')
 const DisposableClient = require('./lib/DisposableClient')
 const format = require('string-template')
-const DiscordRegisterWin = require('./lib/DiscordRegisterWindows')
+// const DiscordRegisterWin = require('./lib/DiscordRegisterWindows')
 var configuration
 var client
 var isReady = false
 var lastFileEditing = ''
 var startTimestamp
 var contextSave
-const VSCODE_PATH = process.execPath
+// const VSCODE_PATH = process.execPath
 // this method is called when your extension is activated
 // your extension is activated the very first time the command is executed
 function activate (context) {
@@ -20,12 +20,13 @@ function activate (context) {
   console.log(process.version)
   context.subscriptions.push(vscode.commands.registerCommand('discord.updatePresence', updatePresence), vscode.commands.registerCommand('discord.enable', enable), vscode.commands.registerCommand('discord.disable', disable))
   if (!configuration.enable) return
-  if (process.platform === 'win32') {
+  /* if (process.platform === 'win32') {
     var discordRegister = new DiscordRegisterWin(configuration.clientID, VSCODE_PATH)
     discordRegister.register().then(function () {
       startClient()
     }).catch(err => vscode.window.showErrorMessage('vscode discord registering error: ' + err.message))
-  } else startClient()
+  } else */
+  startClient()
 }
 function startClient () {
   client = new DisposableClient({ transport: 'ipc' })
@@ -34,10 +35,6 @@ function startClient () {
   // This line of code will only be executed once when your extension is activated
   client.on('ready', () => {
     isReady = true
-    vscode.workspace.onDidChangeTextDocument = updatePresence
-    vscode.workspace.onDidCloseTextDocument = function () {
-      console.log('closed')
-    }
     console.log('Discord-rpc ready')
     updatePresence()
     setInterval(updatePresence, configuration.interval)
@@ -69,9 +66,10 @@ exports.deactivate = deactivate
 function updatePresence () {
   if (!isReady) return
   if (!vscode.workspace.getConfiguration('discord').get('enable', true)) return
+  var debugShow = vscode.debug.activeDebugSession && configuration.showDebug
   var activityObject = {
-    smallImageKey: 'vscode',
-    smallImageText: configuration.vscodeIconText
+    smallImageKey: debugShow ? 'debug' : 'vscode',
+    smallImageText: debugShow ? configuration.debugIconText : configuration.vscodeIconText
   }
   if (vscode.workspace.name) activityObject.state = format(configuration.state, {projectName: vscode.workspace.name})
   if (vscode.window.activeTextEditor) {

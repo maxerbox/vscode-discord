@@ -13,3 +13,11 @@ Rewritten Discord Register
 * Removed Discord Registers for other Os than Windows.
 * Added python support
 * Added a VSCode disposable client, to let the Rich Presence reset when the process quit.
+
+## 1.0.0
+
+* First realease
+
+* Removed Registry
+
+* Added a new option: show debug

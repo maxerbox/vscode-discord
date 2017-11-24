@@ -15,9 +15,15 @@
 
 * Strings entirely modifiable
 
+* Removed registery writing
+
 ## Requirements
 
 * Discord client
+
+## Can I get banned
+
+Well, [someone already asked for it](https://github.com/maxerbox/vscode-discord/issues/3). I emailed the Discord Team, and that's totally fine, until your respect the discord conditions.
 
 ## Install
 
@@ -30,6 +36,8 @@
 This extension contributes the following settings:
 
 * `discord.enable`: enable/disable this extension
+* `discord.showDebug`: Show the debugging icon in the rich presence when debugging
+* `discord.debugIconText`: The small image debug text when debugging
 * `discord.clientID`: the client ID used by discord-rpc
 * `discord.state`: The dicord rich presence state. Default to `Working on {projectName}`. `{projectName}`:workspace name
 * `discord.details`: The discord rpc details. Default to `Editing {filename}`. {filename}: filename, {language} : language id.
@@ -64,5 +72,13 @@ Rewritten Discord Register
 * Removed Discord Registers for other Os than Windows.
 * Added python support
 * Added a VSCode disposable client, to let the Rich Presence reset when the process quit.
+
+## 1.0.0
+
+* First realease
+
+* Removed Registry
+
+* Added a new option: show debug
 
 -----------------------------------------------------------------------------------------------------------
