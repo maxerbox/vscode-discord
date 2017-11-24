@@ -78,8 +78,10 @@ function updatePresence () {
     var ext = extname(filename)
     activityObject.details = format(configuration.details, {filename: filename, language: langId})
     if (lastFileEditing !== filename) {
-      startTimestamp = new Date().getTime() / 1000
-      activityObject.startTimestamp = startTimestamp
+      if (vscode.workspace.getConfiguration('discord').get('showElapsedTime', true)) {
+        startTimestamp = new Date().getTime() / 1000
+        activityObject.startTimestamp = startTimestamp
+      }
       lastFileEditing = filename
     }
     activityObject.largeImageKey = configuration.iconMap[ext] ? configuration.iconMap[ext] : 'vscode'
