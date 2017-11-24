@@ -124,7 +124,8 @@
     ]
   },
   "galleryBanner": {
-    "theme": "dark"
+    "theme": "dark",
+    "color": "#C80000"
   },
   "scripts": {
     "postinstall": "node ./node_modules/vscode/bin/install",
