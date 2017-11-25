@@ -21,3 +21,11 @@ Rewritten Discord Register
 * Removed Registry
 
 * Added a new option: show debug
+
+## 1.0.1
+
+* Better Icon Mapping
+
+* Patched time issue
+
+* Made elapsed time toggel-able through `discord.showElapsedTime` setting
