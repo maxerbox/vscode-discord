@@ -81,8 +81,10 @@ function updatePresence () {
     var langId = vscode.window.activeTextEditor.document.languageId
     activityObject.details = format(configuration.details, {filename: filename, language: langId})
     if (lastFileEditing !== filename) {
-      startTimestamp = new Date().getTime() / 1000
-      activityObject.startTimestamp = startTimestamp
+      if (vscode.workspace.getConfiguration('discord').get('showElapsedTime', true)) {
+        startTimestamp = new Date().getTime() / 1000
+        activityObject.startTimestamp = startTimestamp
+      }
       lastFileEditing = filename
     }
     activityObject.largeImageKey = getIcon(filename) || 'vscode'
