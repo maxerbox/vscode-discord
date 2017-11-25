@@ -38,6 +38,7 @@ This extension contributes the following settings:
 * `discord.enable`: enable/disable this extension
 * `discord.showDebug`: Show the debugging icon in the rich presence when debugging
 * `discord.debugIconText`: The small image debug text when debugging
+* `discord.showElapsedTime`: Show/hide the time that has elapsed since you started editing a certain file
 * `discord.clientID`: the client ID used by discord-rpc
 * `discord.state`: The dicord rich presence state. Default to `Working on {projectName}`. `{projectName}`:workspace name
 * `discord.details`: The discord rpc details. Default to `Editing {filename}`. {filename}: filename, {language} : language id.
@@ -80,5 +81,9 @@ Rewritten Discord Register
 * Removed Registry
 
 * Added a new option: show debug
+
+### 1.0.1
+
+* Made elapsed time toggel-able through `discord.showElapsedTime` setting
 
 -----------------------------------------------------------------------------------------------------------
