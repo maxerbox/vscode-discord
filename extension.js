@@ -63,6 +63,10 @@ function deactivate () {
 }
 exports.deactivate = deactivate
 
+function getIcon (filename) {
+  var icon = configuration.iconMap[filename]
+  return icon || configuration.iconMap[extname(filename)]
+}
 function updatePresence () {
   if (!isReady) return
   if (!vscode.workspace.getConfiguration('discord').get('enable', true)) return
@@ -75,16 +79,16 @@ function updatePresence () {
   if (vscode.window.activeTextEditor) {
     var filename = basename(vscode.window.activeTextEditor.document.fileName)
     var langId = vscode.window.activeTextEditor.document.languageId
-    var ext = extname(filename)
     activityObject.details = format(configuration.details, {filename: filename, language: langId})
     if (lastFileEditing !== filename) {
       startTimestamp = new Date().getTime() / 1000
       activityObject.startTimestamp = startTimestamp
       lastFileEditing = filename
     }
-    activityObject.largeImageKey = configuration.iconMap[ext] ? configuration.iconMap[ext] : 'vscode'
+    activityObject.largeImageKey = getIcon(filename) || 'vscode'
     activityObject.largeImageText = format(configuration.languageIconText, {language: vscode.window.activeTextEditor.document.languageId})
-    activityObject.startTimestamp = startTimestamp
+   // 3600 seconds in one hour
+    activityObject.startTimestamp = startTimestamp > startTimestamp + 3600 ? startTimestamp = new Date().getTime() / 1000 : startTimestamp
   } else {
     activityObject.details = configuration.idle
   }

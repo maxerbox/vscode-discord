@@ -31,6 +31,10 @@ Well, [someone already asked for it](https://github.com/maxerbox/vscode-discord/
 
 * Facultative: Add Visual Studio Code as "Game" on discord. **If you don't add it, it will still display "Playing Visual Studio Code" when you close it.**
 
+## Changing the default icons
+
+To change the default language icons, see [#12](https://github.com/maxerbox/vscode-discord/issues/12)
+
 ## Extension Settings
 
 This extension contributes the following settings:
@@ -80,5 +84,11 @@ Rewritten Discord Register
 * Removed Registry
 
 * Added a new option: show debug
+
+## 1.0.1
+
+* Better Icon Mapping
+
+* Patched time issue
 
 -----------------------------------------------------------------------------------------------------------
