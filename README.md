@@ -17,19 +17,11 @@
 
 * Removed registery writing
 
-## Requirements
-
-* Discord client
-
-## Can I get banned
-
-Well, [someone already asked for it](https://github.com/maxerbox/vscode-discord/issues/3). I emailed the Discord Team, and that's totally fine, until your respect the discord conditions.
-
 ## Install
 
-* Install the extension. The extension needs discord to be launched
+* Install the extension. The extension needs Discord to be launched.
 
-* Facultative: Add Visual Studio Code as "Game" on discord. **If you don't add it, it will still display "Playing Visual Studio Code" when you close it.**
+* Facultative: Add Visual Studio Code as "Game" on Discord. **If you don't add it, it will still display "Playing Visual Studio Code" when you close it**.
 
 ## Changing the default icons
 
@@ -52,9 +44,13 @@ This extension contributes the following settings:
 * `discord.iconMap`: The iconMap for the filename extensions
 * `discord.interval`: The interval time to update the informations in ms. Default to 3000ms
 
-## Known Issues
+## Frequently asked Questions
 
-* Not displaying on discord : Check out if Visual Studio Code is added as game on the discord client.
+#### Can I get banned?
+Well, [someone already asked for it](https://github.com/maxerbox/vscode-discord/issues/3). I emailed the Discord Team, and that's totally fine, unless you disrespect their Terms and Conditions.
+
+#### It's not showing on Discord?
+Check out if Visual Studio Code is added as game on your Discord client.
 
 ## License
 
@@ -66,7 +62,7 @@ The icons are licensed under the [Creative Commons - ShareAlike (CC BY-SA)](http
 
 ### 0.0.1
 
-Initial release of vscode-discord
+Initial release of `vscode-discord`
 
 ### 0.0.2
 
@@ -74,11 +70,11 @@ Rewritten Discord Register
 
 ### 0.0.3
 
-* Removed Discord Registers for other Os than Windows.
+* Removed Discord Registers for OSs other than Windows.
 * Added python support
 * Added a VSCode disposable client, to let the Rich Presence reset when the process quit.
 
-## 1.0.0
+### 1.0.0
 
 * First realease
 
@@ -86,7 +82,7 @@ Rewritten Discord Register
 
 * Added a new option: show debug
 
-## 1.0.1
+### 1.0.1
 
 * Better Icon Mapping
 
@@ -94,4 +90,4 @@ Rewritten Discord Register
 
 * Made elapsed time toggel-able through `discord.showElapsedTime` setting
 
------------------------------------------------------------------------------------------------------------
+---
