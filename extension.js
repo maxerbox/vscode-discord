@@ -18,7 +18,7 @@ function activate (context) {
   contextSave = context
   configuration = vscode.workspace.getConfiguration('discord')
   console.log(process.version)
-  context.subscriptions.push(vscode.commands.registerCommand('discord.updatePresence', updatePresence), vscode.commands.registerCommand('discord.enable', enable), vscode.commands.registerCommand('discord.disable', disable))
+  context.subscriptions.push(vscode.commands.registerCommand('discord.updatePresence', updatePresence), vscode.commands.registerCommand('discord.enable', enable), vscode.commands.registerCommand('discord.disable', disable), vscode.commands.registerCommand('discord.reconnect', reconnectHandle))
   if (!configuration.enable) return
   /* if (process.platform === 'win32') {
     var discordRegister = new DiscordRegisterWin(configuration.clientID, VSCODE_PATH)
@@ -28,7 +28,11 @@ function activate (context) {
   } else */
   startClient()
 }
+function reconnectHandle () {
+  startClient()
+}
 function startClient () {
+  client = null
   client = new DisposableClient({ transport: 'ipc' })
   contextSave.subscriptions.push(client)
   // Use the console to output diagnostic information (console.log) and errors (console.error)

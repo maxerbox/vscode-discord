@@ -2,7 +2,7 @@
   "name": "vscode-discord",
   "displayName": "vscode-discord",
   "description": "Display your current project on vscode in discord with Rich Presence",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "publisher": "maxerbox",
   "engines": {
     "vscode": "^1.18.0"
@@ -29,6 +29,11 @@
       {
         "command": "discord.disable",
         "title": "Disable vscode discord in the current workspace",
+        "category": "Discord"
+      },
+      {
+        "command": "discord.reconnect",
+        "title": "Reconnect to the discord ipc socket",
         "category": "Discord"
       }
     ],
@@ -98,9 +103,12 @@
               ".json": "json",
               ".md": "markdown",
               ".py": "python",
-              "package.json": "npm"
+              "package.json": "npm",
+              ".ts": "typescript",
+              ".lua": "lua",
+              ".vue": "vue"
             },
-            "description": "THe icon map for the extensions"
+            "description": "THe icon map for the extension"
           },
           "discord.interval": {
             "type": "int",
