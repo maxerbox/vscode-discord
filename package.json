@@ -106,7 +106,8 @@
               "package.json": "npm",
               ".ts": "typescript",
               ".lua": "lua",
-              ".vue": "vue"
+              ".vue": "vue",
+              ".rs": "rust"
             },
             "description": "THe icon map for the extension"
           },
