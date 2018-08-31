@@ -108,7 +108,7 @@
               ".lua": "lua",
               ".vue": "vue"
             },
-            "description": "THe icon map for the extension"
+            "description": "The icon map for the extension"
           },
           "discord.interval": {
             "type": "int",
