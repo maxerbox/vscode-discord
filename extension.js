@@ -1,88 +1,99 @@
-// The module 'vscode' contains the VS Code extensibility API
-// Import the module and reference it with the alias vscode in your code below
+/**
+
+VSCODE Discord Integration
+Author: Maxerbox
+Git: https://github.com/maxerbox/vscode-discord
+
+**/
+
 const vscode = require('vscode')
 const {basename, extname} = require('path')
 const DisposableClient = require('./lib/DisposableClient')
 const format = require('string-template')
-// const DiscordRegisterWin = require('./lib/DiscordRegisterWindows')
-var configuration
-var client
-var isReady = false
-var lastFileEditing = ''
-var startTimestamp
-var contextSave
-// const VSCODE_PATH = process.execPath
-// this method is called when your extension is activated
-// your extension is activated the very first time the command is executed
+
+
+let configuration
+let client
+let isReady = false
+let lastFileEditing = ''
+let startTimestamp
+let contextSave
+
+
 function activate (context) {
   contextSave = context
   configuration = vscode.workspace.getConfiguration('discord')
   console.log(process.version)
   context.subscriptions.push(vscode.commands.registerCommand('discord.updatePresence', updatePresence), vscode.commands.registerCommand('discord.enable', enable), vscode.commands.registerCommand('discord.disable', disable), vscode.commands.registerCommand('discord.reconnect', reconnectHandle))
   if (!configuration.enable) return
-  /* if (process.platform === 'win32') {
-    var discordRegister = new DiscordRegisterWin(configuration.clientID, VSCODE_PATH)
-    discordRegister.register().then(function () {
-      startClient()
-    }).catch(err => vscode.window.showErrorMessage('vscode discord registering error: ' + err.message))
-  } else */
   startClient()
 }
+
+
 function reconnectHandle () {
   startClient()
 }
+
+
 function startClient () {
   client = null
   client = new DisposableClient({ transport: 'ipc' })
   contextSave.subscriptions.push(client)
-  // Use the console to output diagnostic information (console.log) and errors (console.error)
-  // This line of code will only be executed once when your extension is activated
   client.on('ready', () => {
     isReady = true
     console.log('Discord-rpc ready')
     updatePresence()
     setInterval(updatePresence, configuration.interval)
   })
+
   client.transport.on('close', () => {
     isReady = false
   })
+
   client.login(configuration.clientID).catch(err => {
     vscode.window.showErrorMessage('Can\'t connect to discord rpc: ' + err.message)
   })
-  var previousVersion = contextSave.globalState.get('vscode-discord.isFirstInstall')
+
+  let previousVersion = contextSave.globalState.get('vscode-discord.isFirstInstall')
   if (!previousVersion) {
     vscode.window.showInformationMessage('Welcome to vscode-discord !')
     contextSave.globalState.update('vscode-discord.isFirstInstall', true)
   }
-  var version = vscode.extensions.getExtension('maxerbox.vscode-discord').packageJSON.version
+
+  let version = vscode.extensions.getExtension('maxerbox.vscode-discord').packageJSON.version
   if (previousVersion !== version) {
     vscode.window.showInformationMessage('Vscode-discord updated!')
     contextSave.globalState.update('vscode-discord.isFirstInstall', version)
   }
 }
+
 exports.activate = activate
 
-// this method is called when your extension is deactivated
+
 function deactivate () {
 }
+
 exports.deactivate = deactivate
 
+
 function getIcon (filename) {
-  var icon = configuration.iconMap[filename]
+  let icon = configuration.iconMap[filename]
   return icon || configuration.iconMap[extname(filename)]
 }
+
+
 function updatePresence () {
   if (!isReady) return
   if (!vscode.workspace.getConfiguration('discord').get('enable', true)) return
-  var debugShow = vscode.debug.activeDebugSession && configuration.showDebug
-  var activityObject = {
+  let debugShow = vscode.debug.activeDebugSession && configuration.showDebug
+  let activityObject = {
     smallImageKey: debugShow ? 'debug' : 'vscode',
     smallImageText: debugShow ? configuration.debugIconText : configuration.vscodeIconText
   }
   if (vscode.workspace.name) activityObject.state = format(configuration.state, {projectName: vscode.workspace.name})
   if (vscode.window.activeTextEditor) {
-    var filename = basename(vscode.window.activeTextEditor.document.fileName)
-    var langId = vscode.window.activeTextEditor.document.languageId
+    let filename = basename(vscode.window.activeTextEditor.document.fileName)
+    let langId = vscode.window.activeTextEditor.document.languageId
     activityObject.details = format(configuration.details, {filename: filename, language: langId})
     if (lastFileEditing !== filename) {
       if (vscode.workspace.getConfiguration('discord').get('showElapsedTime', true)) {
@@ -93,7 +104,6 @@ function updatePresence () {
     }
     activityObject.largeImageKey = getIcon(filename) || 'vscode'
     activityObject.largeImageText = format(configuration.languageIconText, {language: vscode.window.activeTextEditor.document.languageId})
-   // 3600 seconds in one hour
     activityObject.startTimestamp = startTimestamp > startTimestamp + 3600 ? startTimestamp = new Date().getTime() / 1000 : startTimestamp
   } else {
     activityObject.details = configuration.idle
@@ -102,6 +112,7 @@ function updatePresence () {
     vscode.window.showErrorMessage('Discord-rpc:' + err.message)
   })
 }
+
 
 function enable () {
   let Workspace = vscode.workspace
@@ -128,6 +139,8 @@ function enable () {
     activate(contextSave)
   })
 }
+
+
 function pickFolder (folders, placeHolder) {
   if (folders.length === 1) {
     return Promise.resolve(folders[0])
@@ -139,6 +152,8 @@ function pickFolder (folders, placeHolder) {
     return selected.folder
   })
 }
+
+
 function disable () {
   let Workspace = vscode.workspace
   let Window = vscode.window
