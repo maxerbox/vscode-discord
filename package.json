@@ -112,7 +112,7 @@
             "description": "The icon map for the extension"
           },
           "discord.interval": {
-            "type": "int",
+            "type": "integer",
             "default": 3000,
             "description": "The interval time to update the informations in ms"
           }
